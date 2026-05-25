@@ -29,7 +29,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-8351181326687621~1733042192</string>
+	<string>ca-app-pub-3940256099942544~1458002511</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>This app runs a temporary file server on your Wi‑Fi so your TV or another device can download the files you choose. Local network access is only used while sharing is active.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../app.dart';
+import '../util/ads_helper.dart';
 import '../theme/app_colors.dart';
 import '../widgets/local_network_illustration.dart';
 import 'main_shell.dart';
@@ -31,6 +32,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Future<void> _complete() async {
     await widget.prefs.setBool(kOnboardingCompleteKey, true);
     if (!mounted) return;
+    OpenAdGate.scheduleBeforeHome();
     Navigator.of(context).pushReplacement(
       MaterialPageRoute<void>(builder: (_) => const MainShell()),
     );

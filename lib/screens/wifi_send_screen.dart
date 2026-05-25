@@ -9,7 +9,6 @@ import 'package:qr_flutter/qr_flutter.dart';
 import '../services/local_file_server.dart';
 import '../theme/app_colors.dart';
 import '../util/lan_address.dart';
-import '../ads/ad_service.dart';
 
 /// Serves selected files over HTTP on the LAN so a TV browser (or any device) can download them.
 class WifiSendScreen extends StatefulWidget {
@@ -78,7 +77,6 @@ class _WifiSendScreenState extends State<WifiSendScreen>
   }
 
   Future<void> _pickFiles() async {
-    await AdService.instance.showInterstitialIfReady();
     setState(() => _error = null);
     try {
       final result = await FilePicker.platform.pickFiles(

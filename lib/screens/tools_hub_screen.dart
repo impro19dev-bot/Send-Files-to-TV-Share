@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../ads/navigation_ads.dart';
+import '../util/ads_helper.dart';
 import 'device_compatibility_screen.dart';
 import 'format_checker_screen.dart';
 import 'network_speed_screen.dart';
@@ -65,12 +65,25 @@ class ToolsHubScreen extends StatelessWidget {
               style: TextStyle(color: Colors.white.withValues(alpha: 0.65)),
             ),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () async {
-              await pushToolRoute(context, e.page);
-            },
+            onTap: () => _openTool(context, e.title, e.page),
           ),
         );
       },
     );
+  }
+
+  void _openTool(BuildContext context, String title, Widget page) {
+    final isRewarded = title == 'Wi‑Fi send to TV' || title == 'Network planner';
+    if (isRewarded) {
+      showRewardedThen(() {
+        if (!context.mounted) return;
+        pushWithInterstitialBack<void>(context, page);
+      });
+      return;
+    }
+    showInterstitialThen(() {
+      if (!context.mounted) return;
+      pushWithInterstitialBack<void>(context, page);
+    });
   }
 }

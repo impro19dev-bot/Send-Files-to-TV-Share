@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../ads/ad_service.dart';
-import '../ads/main_banner_ad.dart';
+import '../util/ads_helper.dart';
+import '../widgets/main_banner_ad.dart';
 import '../widgets/sfttv_logo.dart';
 import 'home_dashboard.dart';
 import 'guides_screen.dart';
@@ -20,6 +20,19 @@ class _MainShellState extends State<MainShell> {
   int _index = 0;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      OpenAdGate.showBeforeHomeOnce();
+    });
+  }
+
+  void _selectTab(int i) {
+    if (i == _index) return;
+    setState(() => _index = i);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
@@ -35,15 +48,13 @@ class _MainShellState extends State<MainShell> {
               tooltip: 'Settings',
               icon: const Icon(Icons.settings_outlined),
               onPressed: () async {
-                await AdService.instance.showRewardedThen(() {});
-                if (!context.mounted) return;
-                await Navigator.of(context).push<void>(
-                  MaterialPageRoute<void>(
-                    builder: (_) => const SettingsScreen(),
-                  ),
-                );
-                if (!context.mounted) return;
-                await AdService.instance.showInterstitialIfReady();
+                await showInterstitialThen(() {
+                  if (!context.mounted) return;
+                  pushWithInterstitialBack<void>(
+                    context,
+                    const SettingsScreen(),
+                  );
+                });
               },
             ),
           ],
@@ -81,11 +92,18 @@ class _MainShellState extends State<MainShell> {
         ),
         bottomNavigationBar: NavigationBar(
           selectedIndex: _index,
-          onDestinationSelected: (i) async {
+          onDestinationSelected: (i) {
             if (i == _index) return;
-            await AdService.instance.showRewardedThen(() {
-              setState(() => _index = i);
-            });
+            switch (i) {
+              case 0: // Home
+                showRewardedThen(() => _selectTab(0));
+              case 2: // Guides
+                showRewardedThen(() => _selectTab(2));
+              case 1: // Tools
+                showInterstitialThen(() => _selectTab(1));
+              default:
+                _selectTab(i);
+            }
           },
           destinations: const [
             NavigationDestination(

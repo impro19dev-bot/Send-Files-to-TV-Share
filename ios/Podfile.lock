@@ -1,4 +1,8 @@
 PODS:
+  - applovin_max (4.6.3):
+    - AppLovinSDK (= 13.6.1)
+    - Flutter
+  - AppLovinSDK (13.6.1)
   - DKImagePickerController/Core (4.3.9):
     - DKImagePickerController/ImageDataManager
     - DKImagePickerController/Resource
@@ -30,17 +34,21 @@ PODS:
   - DKPhotoGallery/Resource (0.0.19):
     - SDWebImage
     - SwiftyGif
+  - FBAudienceNetwork (6.21.1)
   - file_picker (0.0.1):
     - DKImagePickerController/PhotoGallery
     - Flutter
   - Flutter (1.0.0)
-  - Google-Mobile-Ads-SDK (11.13.0):
+  - Google-Mobile-Ads-SDK (13.2.0):
     - GoogleUserMessagingPlatform (>= 1.1)
-  - google_mobile_ads (5.3.1):
+  - google_mobile_ads (8.0.0):
     - Flutter
-    - Google-Mobile-Ads-SDK (~> 11.13.0)
+    - Google-Mobile-Ads-SDK (~> 13.2.0)
     - webview_flutter_wkwebview
   - GoogleUserMessagingPlatform (3.1.0)
+  - multiads (0.0.1):
+    - FBAudienceNetwork
+    - Flutter
   - network_info_plus (0.0.1):
     - Flutter
   - package_info_plus (0.4.5):
@@ -57,9 +65,11 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
+  - applovin_max (from `.symlinks/plugins/applovin_max/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
   - google_mobile_ads (from `.symlinks/plugins/google_mobile_ads/ios`)
+  - multiads (from `.symlinks/plugins/multiads/ios`)
   - network_info_plus (from `.symlinks/plugins/network_info_plus/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
@@ -67,20 +77,26 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AppLovinSDK
     - DKImagePickerController
     - DKPhotoGallery
+    - FBAudienceNetwork
     - Google-Mobile-Ads-SDK
     - GoogleUserMessagingPlatform
     - SDWebImage
     - SwiftyGif
 
 EXTERNAL SOURCES:
+  applovin_max:
+    :path: ".symlinks/plugins/applovin_max/ios"
   file_picker:
     :path: ".symlinks/plugins/file_picker/ios"
   Flutter:
     :path: Flutter
   google_mobile_ads:
     :path: ".symlinks/plugins/google_mobile_ads/ios"
+  multiads:
+    :path: ".symlinks/plugins/multiads/ios"
   network_info_plus:
     :path: ".symlinks/plugins/network_info_plus/ios"
   package_info_plus:
@@ -91,13 +107,17 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
 
 SPEC CHECKSUMS:
+  applovin_max: adb92e5255e3168893978a634d6b52a7c7bb79ed
+  AppLovinSDK: fb0795377cc861aa8813019ddc5d05fbd998c527
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
+  FBAudienceNetwork: 85d18a65c9e35bc426bd4664cf3ae2a1172d7b60
   file_picker: b159e0c068aef54932bb15dc9fd1571818edaf49
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  Google-Mobile-Ads-SDK: 14f57f2dc33532a24db288897e26494640810407
-  google_mobile_ads: fe0e2c1764ad95323dd0e3081d0bb2d58411f957
+  Google-Mobile-Ads-SDK: f0365e190d66539c65cea8ded43e2c367abb5477
+  google_mobile_ads: 504fb83892207cb9ab7223e13ad6090e6f63d62b
   GoogleUserMessagingPlatform: befe603da6501006420c206222acd449bba45a9c
+  multiads: 0bea523bdae11533fb284b5fdd0c4fe827c90045
   network_info_plus: 6613d9d7cdeb0e6f366ed4dbe4b3c51c52d567a9
   package_info_plus: c0502532a26c7662a62a356cebe2692ec5fe4ec4
   SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf

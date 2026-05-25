@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'ads/ad_service.dart';
+import 'util/ads_helper.dart';
 import 'screens/main_shell.dart';
 import 'screens/onboarding_screen.dart';
 import 'screens/splash_screen.dart';
@@ -29,6 +29,9 @@ class SendFilesToTvApp extends StatelessWidget {
             final Widget next = completed
                 ? const MainShell()
                 : OnboardingScreen(prefs: prefs);
+            if (next is MainShell) {
+              OpenAdGate.scheduleBeforeHome();
+            }
             Navigator.of(context).pushReplacement(
               PageRouteBuilder<void>(
                 pageBuilder: (context, animation, secondaryAnimation) => next,

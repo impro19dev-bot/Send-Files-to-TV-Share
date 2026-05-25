@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../ads/ad_service.dart';
 import '../app.dart';
+import '../util/ad_consent.dart';
+import '../util/ads_helper.dart';
 
 Future<void> confirmResetOnboarding(BuildContext context) async {
   final ok = await showDialog<bool>(
@@ -16,7 +17,7 @@ Future<void> confirmResetOnboarding(BuildContext context) async {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(ctx, false),
+          onPressed: () => popWithInterstitial(ctx, false),
           child: const Text('Cancel'),
         ),
         FilledButton(
@@ -70,6 +71,21 @@ class SettingsScreen extends StatelessWidget {
               'Wi‑Fi send, guides, and planning tools. File transfer uses your home network.',
             ),
           ),
+          const _SectionHeader(label: 'Privacy'),
+          FutureBuilder<bool>(
+            future: AdConsent.privacyOptionsRequired(),
+            builder: (context, snapshot) {
+              if (snapshot.data != true) return const SizedBox.shrink();
+              return ListTile(
+                leading: const Icon(Icons.privacy_tip_outlined),
+                title: const Text('Ad privacy choices'),
+                subtitle: const Text(
+                  'Manage consent for personalized ads (required in some regions).',
+                ),
+                onTap: () => AdConsent.showPrivacyOptions(),
+              );
+            },
+          ),
           const _SectionHeader(label: 'Onboarding'),
           ListTile(
             leading: const Icon(Icons.replay_outlined),
@@ -78,9 +94,10 @@ class SettingsScreen extends StatelessWidget {
               'Clears the intro completion flag. Fully quit and reopen the app to see onboarding.',
             ),
             onTap: () async {
-              await AdService.instance.showInterstitialIfReady();
-              if (!context.mounted) return;
-              await confirmResetOnboarding(context);
+              await showInterstitialThen(() {
+                if (!context.mounted) return;
+                confirmResetOnboarding(context);
+              });
             },
           ),
         ],

@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
-class GuidesScreen extends StatelessWidget {
+import '../util/ads_helper.dart';
+
+class GuidesScreen extends StatefulWidget {
   const GuidesScreen({super.key});
 
+  @override
+  State<GuidesScreen> createState() => _GuidesScreenState();
+}
+
+class _GuidesScreenState extends State<GuidesScreen> {
   static const _guides = <_Guide>[
     _Guide(
       title: 'AirPlay from iPhone or iPad',
@@ -41,6 +48,19 @@ class GuidesScreen extends StatelessWidget {
     ),
   ];
 
+  final Set<int> _expanded = {};
+
+  Future<void> _onGuideTap(int index) async {
+    if (_expanded.contains(index)) {
+      setState(() => _expanded.remove(index));
+      return;
+    }
+    await showInterstitialThen(() {
+      if (!mounted) return;
+      setState(() => _expanded.add(index));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
@@ -49,36 +69,53 @@ class GuidesScreen extends StatelessWidget {
       separatorBuilder: (context, index) => const SizedBox(height: 10),
       itemBuilder: (context, i) {
         final g = _guides[i];
+        final isOpen = _expanded.contains(i);
         return Card(
-          child: ExpansionTile(
-            title: Text(
-              g.title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          child: Column(
             children: [
-              for (var s = 0; s < g.steps.length; s++) ...[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${s + 1}.',
-                      style: TextStyle(color: Colors.white.withValues(alpha: 0.55)),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        g.steps[s],
-                        style: const TextStyle(color: Colors.white70, height: 1.45),
-                      ),
-                    ),
-                  ],
+              ListTile(
+                title: Text(
+                  g.title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-                if (s != g.steps.length - 1) const SizedBox(height: 10),
-              ],
+                trailing: Icon(isOpen ? Icons.expand_less : Icons.expand_more),
+                onTap: () => _onGuideTap(i),
+              ),
+              if (isOpen)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  child: Column(
+                    children: [
+                      for (var s = 0; s < g.steps.length; s++) ...[
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${s + 1}.',
+                              style: TextStyle(
+                                color: Colors.white.withValues(alpha: 0.55),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                g.steps[s],
+                                style: const TextStyle(
+                                  color: Colors.white70,
+                                  height: 1.45,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        if (s != g.steps.length - 1) const SizedBox(height: 10),
+                      ],
+                    ],
+                  ),
+                ),
             ],
           ),
         );

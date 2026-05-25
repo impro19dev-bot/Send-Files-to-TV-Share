@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../ads/navigation_ads.dart';
+import '../util/ads_helper.dart';
 import '../theme/app_colors.dart';
 import 'device_compatibility_screen.dart';
 import 'format_checker_screen.dart';
@@ -62,27 +62,34 @@ class HomeDashboard extends StatelessWidget {
             _FeatureCard(
               icon: Icons.wifi_tethering,
               label: 'Wi‑Fi send to TV',
-              onTap: () => _open(context, const WifiSendScreen()),
+              onTap: () => _openRewarded(context, const WifiSendScreen()),
             ),
             _FeatureCard(
               icon: Icons.speed,
               label: 'Network planner',
-              onTap: () => _open(context, const NetworkSpeedScreen()),
+              onTap: () => _openRewarded(context, const NetworkSpeedScreen()),
             ),
             _FeatureCard(
               icon: Icons.devices_other,
               label: 'Device compatibility',
-              onTap: () => _open(context, const DeviceCompatibilityScreen()),
+              onTap: () => _openInterstitial(
+                context,
+                const DeviceCompatibilityScreen(),
+              ),
             ),
             _FeatureCard(
               icon: Icons.video_file_outlined,
               label: 'Format checker',
-              onTap: () => _open(context, const FormatCheckerScreen()),
+              onTap: () =>
+                  _openInterstitial(context, const FormatCheckerScreen()),
             ),
             _FeatureCard(
               icon: Icons.calculate_outlined,
               label: 'Transfer calculator',
-              onTap: () => _open(context, const TransferCalculatorScreen()),
+              onTap: () => _openInterstitial(
+                context,
+                const TransferCalculatorScreen(),
+              ),
             ),
           ],
         ),
@@ -90,8 +97,18 @@ class HomeDashboard extends StatelessWidget {
     );
   }
 
-  Future<void> _open(BuildContext context, Widget page) async {
-    await pushToolRoute(context, page);
+  void _openRewarded(BuildContext context, Widget page) {
+    showRewardedThen(() {
+      if (!context.mounted) return;
+      pushWithInterstitialBack<void>(context, page);
+    });
+  }
+
+  Future<void> _openInterstitial(BuildContext context, Widget page) async {
+    await showInterstitialThen(() {
+      if (!context.mounted) return;
+      pushWithInterstitialBack<void>(context, page);
+    });
   }
 }
 
