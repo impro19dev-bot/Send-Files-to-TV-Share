@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Send files to TV</string>
+	<string>Send Files to TV: Share</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>sendfiles.tv</string>
+	<string>sendfilestvshare</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>CFBundlePackageType</key>
@@ -28,12 +28,14 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-3940256099942544~1458002511</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>$(DART_DEBUG_BONJOUR_SERVICE)</string>
+	</array>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>This app runs a temporary file server on your Wi‑Fi so your TV or another device can download the files you choose. Local network access is only used while sharing is active.</string>
+	<string>Send Files to TV: Share uses the local network to offer files you pick to a browser on the same Wi‑Fi, and during development to reach the Flutter debugger. Sharing stays on only while you leave it open.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Send files to TV needs access to your photo library so you can choose photos and videos to share over Wi‑Fi to your TV or browser. We only use the items you select.</string>
+	<string>Send Files to TV: Share reads photos and videos only when you choose them to send. Nothing is uploaded to a developer server.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

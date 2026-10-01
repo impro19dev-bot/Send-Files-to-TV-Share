@@ -1,2 +1,4 @@
 #include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"
 #include "Generated.xcconfig"
+// Empty in Release so Bonjour is not declared for App Store builds.
+DART_DEBUG_BONJOUR_SERVICE=

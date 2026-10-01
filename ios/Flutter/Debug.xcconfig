@@ -1,2 +1,4 @@
 #include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"
 #include "Generated.xcconfig"
+// Required for wireless `flutter run` / hot reload on iOS 14+ (Debug only).
+DART_DEBUG_BONJOUR_SERVICE=_dartVmService._tcp

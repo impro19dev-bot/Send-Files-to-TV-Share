@@ -1,22 +1,25 @@
 workflows:
   testFlight:
-    name: "Ios Release"
+    name: "Send Files to TV: Share"
     integrations:
-      app_store_connect: ZOUHAIR MOUFARAJ
+      app_store_connect: Aymane Korai
     environment:
       flutter: 3.41.0
       ios_signing:
         provisioning_profiles:
-          - provisioning_sendfiles
+          - provisioning_sendfilestotvshare
         certificates:
-          - Certificate_zouhir
+          - Certificate_aymane
     scripts:
       - name: Set up code signing settings on Xcode project
         script: xcode-project use-profiles
+
       - name: Get Flutter packages
         script: flutter packages pub get
+
       - name: Set up code signing
         script: xcode-project use-profiles
+        
       - name: Build IPA
         script: flutter build ipa --release --export-options-plist=/Users/builder/export_options.plist
     artifacts:
@@ -24,7 +27,7 @@ workflows:
     publishing:
       email:
         recipients:
-          - moufarijamix50@gmail.com
+          - impro19dev@gmail.com
         notify:
           success: true
           failure: true
