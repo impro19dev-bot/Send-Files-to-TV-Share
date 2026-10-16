@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../ads/ads_actions.dart';
+import '../ads/ads_bootstrap.dart';
 import '../brand/crest.dart';
 import '../brand/ink.dart';
+import '../util/global.dart';
 
 typedef OpeningDone = void Function(BuildContext context);
 
@@ -20,10 +23,28 @@ class _OpeningState extends State<Opening> {
   void initState() {
     super.initState();
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
-    Future<void>.delayed(const Duration(milliseconds: 1600), () {
-      if (!mounted) return;
-      widget.onReady(context);
-    });
+    _startLaunchFlow();
+  }
+
+  Future<void> _startLaunchFlow() async {
+    // Let the first frame paint so UMP can present above the splash.
+    await Future<void>.delayed(const Duration(milliseconds: 400));
+    if (!mounted) return;
+
+    await AdsBootstrap.ensureReady();
+    if (!mounted) return;
+
+    await Future<void>.delayed(const Duration(milliseconds: 800));
+    if (!mounted) return;
+
+    // App Open (if ready) then continue; never blocks when ads are missing.
+    await AdsActions.showAppOpenOnLaunch(onFinished: _continueAfterAds);
+  }
+
+  void _continueAfterAds() {
+    if (!mounted) return;
+    pastSplash = true;
+    widget.onReady(context);
   }
 
   @override

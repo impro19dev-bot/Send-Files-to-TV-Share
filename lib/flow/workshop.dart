@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../ads/ads_actions.dart';
 import '../brand/ink.dart';
 import '../tools/codec_lens.dart';
 import '../tools/eta_board.dart';
@@ -20,6 +21,7 @@ class Workshop extends StatelessWidget {
           title: 'Wi‑Fi send',
           line: 'Share chosen files with a browser on the same network.',
           page: const HandoffDesk(),
+          interstitial: true,
         ),
         const SizedBox(height: 18),
         const _Heading('Plan'),
@@ -74,11 +76,13 @@ class _BenchTile extends StatelessWidget {
     required this.title,
     required this.line,
     required this.page,
+    this.interstitial = false,
   });
 
   final String title;
   final String line;
   final Widget page;
+  final bool interstitial;
 
   @override
   Widget build(BuildContext context) {
@@ -89,9 +93,11 @@ class _BenchTile extends StatelessWidget {
         subtitle: Text(line, style: const TextStyle(color: Pigment.mute)),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
-          Navigator.of(
-            context,
-          ).push(MaterialPageRoute<void>(builder: (_) => page));
+          if (interstitial) {
+            AdsActions.pushInterstitial(context, page);
+          } else {
+            AdsActions.pushRewarded(context, page);
+          }
         },
       ),
     );

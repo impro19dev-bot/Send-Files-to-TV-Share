@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../ads/ads_actions.dart';
 import '../brand/crest.dart';
 import '../brand/ink.dart';
 import '../tools/codec_lens.dart';
@@ -52,7 +53,8 @@ class Lobby extends StatelessWidget {
         ),
         const SizedBox(height: 18),
         FilledButton.icon(
-          onPressed: () => _open(context, const HandoffDesk()),
+          onPressed: () =>
+              AdsActions.pushRewarded(context, const HandoffDesk()),
           icon: const Icon(Icons.send_rounded),
           label: const Text('Send files'),
         ),
@@ -66,33 +68,29 @@ class Lobby extends StatelessWidget {
           icon: Icons.speed_rounded,
           title: 'Network planner',
           detail: 'Sample speeds for transfer estimates.',
-          onTap: () => _open(context, const SampleLane()),
+          onTap: () => AdsActions.pushRewarded(context, const SampleLane()),
         ),
         _Link(
           icon: Icons.tv_rounded,
           title: 'TV compatibility',
           detail: 'What to expect from common receivers.',
-          onTap: () => _open(context, const ReceiverAtlas()),
+          onTap: () => AdsActions.pushRewarded(context, const ReceiverAtlas()),
         ),
         _Link(
           icon: Icons.video_file_outlined,
           title: 'Format checker',
           detail: 'See which files usually play on a TV.',
-          onTap: () => _open(context, const CodecLens()),
+          onTap: () => AdsActions.pushRewarded(context, const CodecLens()),
         ),
         _Link(
           icon: Icons.timer_outlined,
           title: 'Transfer time',
           detail: 'Estimate how long a file will take.',
-          onTap: () => _open(context, const EtaBoard()),
+          onTap: () => AdsActions.pushRewarded(context, const EtaBoard()),
         ),
       ],
     );
   }
-}
-
-void _open(BuildContext context, Widget page) {
-  Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => page));
 }
 
 class _Link extends StatelessWidget {

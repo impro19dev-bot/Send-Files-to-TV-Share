@@ -8,6 +8,13 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>Send Files to TV: Share</string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-3940256099942544~1458002511</string>
+	<!-- Delay AdMob measurement until after UMP GDPR consent is gathered. -->
+	<key>GADDelayAppMeasurementInit</key>
+	<true/>
+	<!-- ATT is separate from GDPR/UMP. Add NSUserTrackingUsageDescription
+	     only when you implement an ATT prompt; do not merge ATT into UMP. -->
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

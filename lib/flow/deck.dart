@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../ads/ads_actions.dart';
 import 'field_notes.dart';
 import 'lobby.dart';
 import 'preferences.dart';
@@ -20,7 +21,18 @@ class _DeckState extends State<Deck> {
 
   void _select(int index) {
     if (index == _tab) return;
-    setState(() => _tab = index);
+
+    void go() {
+      if (!mounted) return;
+      setState(() => _tab = index);
+    }
+
+    // Home + Guides → rewarded; Tools → interstitial.
+    if (index == 1) {
+      AdsActions.showInterstitialThen(go);
+    } else {
+      AdsActions.showRewardedThen(go);
+    }
   }
 
   @override
@@ -39,9 +51,7 @@ class _DeckState extends State<Deck> {
             IconButton(
               tooltip: 'Settings',
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute<void>(builder: (_) => const Preferences()),
-                );
+                AdsActions.pushInterstitial(context, const Preferences());
               },
               icon: const Icon(Icons.tune),
             ),

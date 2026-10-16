@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../ads/ads_actions.dart';
 import '../brand/ink.dart';
 
 class FieldNotes extends StatefulWidget {
@@ -68,11 +69,15 @@ class _FieldNotesState extends State<FieldNotes> {
 
   void _go(int next) {
     if (next == _index) return;
-    _pager.animateToPage(
-      next,
-      duration: const Duration(milliseconds: 260),
-      curve: Curves.easeOut,
-    );
+    // Guide topics (TV browser, AirPlay, Cast, …) → interstitial on press.
+    AdsActions.showInterstitialThen(() {
+      if (!mounted) return;
+      _pager.animateToPage(
+        next,
+        duration: const Duration(milliseconds: 260),
+        curve: Curves.easeOut,
+      );
+    });
   }
 
   @override
