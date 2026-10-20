@@ -8,6 +8,7 @@ import '../../core/ad_callbacks.dart';
 import '../../core/ads_base.dart';
 import '../../core/log.dart';
 import '../../models/ads_settings.dart';
+import '../../ump/ump_consent.dart';
 import 'applovin_data.dart';
 
 class ApplovinAD extends Ads {
@@ -23,6 +24,12 @@ class ApplovinAD extends Ads {
 
   @override
   Future<void> init() async {
+    // GDPR / privacy signal from UMP. IDFA itself is gated by Apple ATT at OS level.
+    try {
+      final hasConsent = await UmpConsent.canRequestAds();
+      AppLovinMAX.setHasUserConsent(hasConsent);
+    } catch (_) {}
+
     bool? isInitialized = await AppLovinMAX.isInitialized();
     if (isInitialized == null || !isInitialized) {
       await AppLovinMAX.initialize(_applovinData.sdkKey);

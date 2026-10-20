@@ -20,6 +20,9 @@ Future<void> main() async {
         config: const MultiAdsConfig(
           admobTestDeviceIds: ['79738754EC81FA5F64972928128B2FFF'],
           facebookTestingId: 'd1a0df1f-2528-4e41-a4d3-1b401ba14f7d',
+          // IDFA advertiser tracking is enabled only after ATT authorization
+          // (see TrackingGate / AttTracking). Keep true to allow when authorized.
+          facebookiOSTrackingEnabled: true,
           enableLogs: true, // set false before release
         ),
       );

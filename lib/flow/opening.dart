@@ -27,14 +27,15 @@ class _OpeningState extends State<Opening> {
   }
 
   Future<void> _startLaunchFlow() async {
-    // Let the first frame paint so UMP can present above the splash.
-    await Future<void>.delayed(const Duration(milliseconds: 400));
+    // Let the first frame paint so UMP / ATT can present above the splash.
+    await Future<void>.delayed(const Duration(milliseconds: 500));
     if (!mounted) return;
 
+    // UMP (GDPR) → ATT (Apple) → ad SDK init. See AdsBootstrap.
     await AdsBootstrap.ensureReady();
     if (!mounted) return;
 
-    await Future<void>.delayed(const Duration(milliseconds: 800));
+    await Future<void>.delayed(const Duration(milliseconds: 500));
     if (!mounted) return;
 
     // App Open (if ready) then continue; never blocks when ads are missing.

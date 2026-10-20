@@ -5,6 +5,7 @@ import '../../core/ad_callbacks.dart';
 import '../../core/ads_base.dart';
 import '../../core/log.dart';
 import '../../models/multiads_config.dart';
+import '../../tracking/tracking_gate.dart';
 import '../../ump/ump_consent.dart';
 import 'admob_data.dart';
 
@@ -34,7 +35,8 @@ class AdmobAD extends Ads {
   // init
   @override
   Future<void> init() async {
-    // GDPR / UMP only — Apple ATT is handled separately (never here).
+    // GDPR / UMP only — Apple ATT is requested by the host app before this
+    // (see AdsBootstrap). gather() is a no-op if already completed.
     await UmpConsent.gather(testDeviceIds: _config.admobTestDeviceIds);
 
     final canRequest = await UmpConsent.canRequestAds();
@@ -43,9 +45,14 @@ class AdmobAD extends Ads {
       return;
     }
 
+    // Initializes after UMP + ATT. Without ATT authorization the OS returns
+    // a zeroed IDFA; ads still load as non-personalized / limited tracking.
     await MobileAds.instance.initialize();
     await MobileAds.instance.updateRequestConfiguration(
       RequestConfiguration(testDeviceIds: _config.admobTestDeviceIds),
+    );
+    Log.log(
+      'AdMob >> MobileAds initialized (idfaAuthorized=${TrackingGate.idfaAuthorized})',
     );
   }
 

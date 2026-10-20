@@ -21,9 +21,9 @@ class MultiAdsConfig {
     this.admobNativePrimaryColor = Colors.blue,
     this.admobNativeSecondaryColor = const Color(0xFF4CB050),
     this.admobNativeActionColor = Colors.blue,
-    // Facebook defaults
+    // Facebook defaults — IDFA still gated by [TrackingGate.idfaAuthorized].
     this.facebookTestingId = "",
-    this.facebookiOSTrackingEnabled = true,
+    this.facebookiOSTrackingEnabled = false,
     // General
     this.enableLogs = true,
   });

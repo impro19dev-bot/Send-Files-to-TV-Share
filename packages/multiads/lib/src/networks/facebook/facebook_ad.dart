@@ -12,6 +12,7 @@ import '../../core/ad_callbacks.dart';
 import '../../core/ads_base.dart';
 import '../../core/log.dart';
 import '../../models/multiads_config.dart';
+import '../../tracking/tracking_gate.dart';
 import 'facebook_data.dart';
 
 class FacebookAD extends Ads {
@@ -128,12 +129,19 @@ class FacebookAD extends Ads {
   @override
   Future<void> init() async {
     try {
+      // Never enable advertiser tracking unless ATT authorized (+ config allows).
+      final trackingEnabled =
+          TrackingGate.idfaAuthorized && _config.facebookiOSTrackingEnabled;
+
       await _channel.invokeMethod('init', {
-        'testingId': _config.facebookTestingId ?? '',
-        'iOSTrackingEnabled': _config.facebookiOSTrackingEnabled ?? true,
+        'testingId': _config.facebookTestingId,
+        'iOSTrackingEnabled': trackingEnabled,
       });
 
-      Log.log("Facebook >> Initialized successfully");
+      Log.log(
+        'Facebook >> Initialized (idfaTracking=$trackingEnabled, '
+        'att=${TrackingGate.idfaAuthorized})',
+      );
     } catch (e) {
       Log.log("Facebook >> Init error: $e");
     }

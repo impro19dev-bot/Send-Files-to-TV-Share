@@ -12,3 +12,4 @@ export 'src/networks/applovin/applovin_data.dart';
 export 'src/networks/facebook/facebook_data.dart';
 export 'src/networks/ironsource/ironsource_data.dart';
 export 'src/ump/ump_consent.dart';
+export 'src/tracking/tracking_gate.dart';
